@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8"/>
+<meta name="Keywords" content="Olivia, Meadows, Order, HTML, CSS"/>
+<meta name="Description" content="Olivia Meadows Order Page"/>
+<meta name="Author" content="Olivia Meadows"/>
+<meta name="robots" content="noindex"/>
+<link rel="icon" href="../images/Icon.png">
+<link rel="stylesheet" type="text/css" href="../css/myStyle.css"/>
+<title>Order page - Olivia Meadows</title>
+
+<img src= "../images/icon.png" alt="icon"/>
+<p style="text-align: right;">
+	Imaginary Place<br>
+	Imaginary State<br>
+	Imaginary Phone
+</p>
+<Hr>
+	
+<br><br>
+<nav>
+	<a href="../html/Home.html">Home</a><br>
+	<a href="../html/About.html">About Us</a><br>
+	<a href="../html/Contact.html">Contact Us</a>
+</nav>
+
+<h1>Select a type of Cupcake:</h1>
+
+<form method="post" action="" enctype="multipart/form-data" id="prices-cupcakes">
+	<input type="radio" name="r1" data-price="799" id="cup1" onclick="showCup()"><img src="../images/Product1.png"><span class="price">7.99</span>
+	<input type="radio" name="r1" data-price="899" id="cup2" onclick="showCup()"><img src="../images/Product2.png"><span class="price">8.99</span>
+	<input type="radio" name="r1" data-price="999" id="cup3" onclick="showCup()"><img src="../images/Product3.png"><span class="price">9.99</span>
+</form>
+ 
+<form id="prices-frost">
+	<hr>
+	<h1>Select a Frosting Flavor:</h1>
+		<input type="radio" id="Frost1" name="Specifi" data-price="199" onclick="showFrost()">Vanilla</input><span class="price"> +1.99</span><br>
+		<input type="radio" id="Frost2" name="Specifi" data-price="299" onclick="showFrost()">Chocolate</input><span class="price"> +2.99</span><br>
+		<input type="radio" id="Frost3" name="Specifi" data-price="399" onclick="showFrost()">Cream Cheese</input><span class="price"> +3.99</span>
+	<hr>
+	<br><br>
+	<input type="submit" value="Submit Order">
+	<br><br>
+</form>
+	
+<script src="../java/js.cookie.min.js"></script>
+<script type="text/javascript">
+var checkboxWrapper = document.querySelector('#prices-cupcakes');
+var radioWrapper = document.querySelector('#prices-frost');
+function calculatesubPrice() {
+	var checkedBoxes = Array.prototype.slice.call( checkboxWrapper.querySelectorAll('input:checked') );
+	var boxPrice = checkedBoxes.reduce(function( total, box ) {
+		var price = parseInt(box.getAttribute('data-price'), 10);
+	total += price;
+	return total;
+	}, 0);
+	var checkedRadio = radioWrapper.querySelector('input:checked');
+	var radioPrice = (checkedRadio) ? parseInt(checkedRadio.getAttribute('data-price'), 10) : 0;
+	var realPriceString = '$' + ((boxPrice + radioPrice) / 100).toFixed(2);
+	var realTaxString = '$' + (((boxPrice + radioPrice) / 100) * 0.3).toFixed(2);
+	var realTotalPriceString = '$' + ((((boxPrice + radioPrice) / 100) * 0.3) + ((boxPrice + radioPrice) / 100)).toFixed(2);
+	document.querySelector('#total').innerHTML = realPriceString
+	document.querySelector('#priceTax').innerHTML = realTaxString
+	document.querySelector('#priceTotal').innerHTML = realTotalPriceString
+}
+
+
+function showFrost() {  
+  var markedCheckbox = document.getElementsByName('Specifi');  
+  var frosLabel = document.getElementById('SpecName');
+  calculatesubPrice();
+	if(document.getElementById('Frost1').checked) {
+		frosLabel.innerHTML = "Vanilla Frosting";
+	}
+	else if(document.getElementById('Frost2').checked) {
+		frosLabel.innerHTML = "Chocolate Frosting";
+	}  
+	else if(document.getElementById('Frost3').checked) {
+		frosLabel.innerHTML = "Cream Cheese Frosting";
+	}
+}
+
+function showCup() {
+	var cupLabel = document.getElementById('ProductName');
+	calculatesubPrice();
+	if(document.getElementById('cup1').checked) {
+		cupLabel.innerHTML = "Vanilla Cupcake" + " with";
+		document.getElementById('ProductPic').src = "../images/product1.png";
+	}
+	else if(document.getElementById('cup2').checked) {
+	cupLabel.innerHTML = "Chocolate Cupcake" + " with";
+	document.getElementById('ProductPic').src = "../images/product2.png";
+	}  
+	else if(document.getElementById('cup3').checked) {
+	cupLabel.innerHTML = "Red Velvet Cupcake" + " with";
+	document.getElementById('ProductPic').src = "../images/product3.png";
+	}
+}  
+
+
+
+</script>
+</head>
+<body>
+
+<h2>Order Summary</h2>
+<span id="ProductName"></span>
+<span id="SpecName"></span>
+<br>
+<img id="ProductPic"/>
+
+<h1>Price</h1>
+<span>Subtotal: </span><span id="total">$0.00</span><br>
+<span>Tax: </span><span id="priceTax">$0.00</span><br>
+<span>Total: </span><span id="priceTotal">$0.00</span>
+</body>
+</html>
